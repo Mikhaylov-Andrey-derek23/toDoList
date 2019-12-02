@@ -11,7 +11,8 @@ export default class App extends Component {
         super(props)
         this.state = {
             searchTypeText: "Type here to seach",
-            activButton: "all"
+            activButton: "all",
+            findText: ""
         }
     }
     Exclamation(element) {
@@ -85,25 +86,9 @@ export default class App extends Component {
         this.setState({
             activButton: e
         })
-        // switch (e) {
-        //     case "all":
-        //         this.setState({
-        //             activButton: "all"
-        //         })
-        //         break;
-        //     case "active":
-        //         this.setState({
-        //             activButton: "active"
-        //         })
-        //         break;
-        //     case "done":
-        //         this.setState({
-        //             activButton: "done"
-        //         })
-        //         break;
-        //     default:
-        //         break;
-        // }
+    }
+    changeFindText(e) {
+        console.log(e)
     }
     componentDidMount() {
         this.onload();
@@ -124,6 +109,12 @@ export default class App extends Component {
                     break;
                 default:
                     break;
+            }
+            if (this.state.findText !== "" && this.state.items !== undefined ){
+                finalItems = [...this.state.items.filter((el)=>el.value.toLowerCase().includes(this.state.findText.toLowerCase()))]
+            }
+            if (this.state.findText === "" && this.state.items !== undefined){
+                finalItems = [...this.state.items]
             }
         }
         return (
