@@ -10,7 +10,8 @@ export default class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            searchTypeText: "Type here to seach"
+            searchTypeText: "Type here to seach",
+            activButton: "all"
         }
     }
     Exclamation(element) {
@@ -80,15 +81,56 @@ export default class App extends Component {
             })
         }
     }
+    changeActiveButton(e) {
+        this.setState({
+            activButton: e
+        })
+        // switch (e) {
+        //     case "all":
+        //         this.setState({
+        //             activButton: "all"
+        //         })
+        //         break;
+        //     case "active":
+        //         this.setState({
+        //             activButton: "active"
+        //         })
+        //         break;
+        //     case "done":
+        //         this.setState({
+        //             activButton: "done"
+        //         })
+        //         break;
+        //     default:
+        //         break;
+        // }
+    }
     componentDidMount() {
         this.onload();
     }
     render() {
+
+        let finalItems = [];
+        if (this.state.items !== undefined) {
+            switch (this.state.activButton) {
+                case "all":
+                    finalItems = [...this.state.items]
+                    break;
+                case "active":
+                        finalItems = [...this.state.items.filter((el)=>el.done === false)]
+                    break;
+                case "done":
+                        finalItems = [...this.state.items.filter((el)=>el.done === true)]
+                    break;
+                default:
+                    break;
+            }
+        }
         return (
             <div className="col-lg-4 mx-auto my-4">
-                <AppHeader more={this.state.items !== undefined ? this.state.items.filter(e => e.done === false).length :""} done={this.state.items !== undefined ? this.state.items.filter(e => e.done === true).length :""}/>
-                <SearchPanel searchTypeText={this.state.searchTypeText} />
-                {this.state.items !== undefined ? <TodoList items={this.state.items} exclamation={(e) => this.Exclamation(e)} onLabelClick={(e) => this.onLabelClick(e)} deleteItms={(e) => this.deleteItms(e)} /> : <Loading />}
+                <AppHeader more={this.state.items !== undefined ? this.state.items.filter(e => e.done === false).length : ""} done={this.state.items !== undefined ? this.state.items.filter(e => e.done === true).length : ""} />
+                <SearchPanel searchTypeText={this.state.searchTypeText} activButton={this.state.activButton} changeActiveButton={(e) => this.changeActiveButton(e)} />
+                {this.state.items !== undefined ? <TodoList items={finalItems} exclamation={(e) => this.Exclamation(e)} onLabelClick={(e) => this.onLabelClick(e)} deleteItms={(e) => this.deleteItms(e)} /> : <Loading />}
                 <AddItem addItem={(e) => this.AddItem(e)} />
             </div>
         )
