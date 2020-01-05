@@ -13,6 +13,7 @@ export default class App extends Component {
             searchTypeText: "Type here to seach",
             activButton: "all",
             findText: ""
+
         }
     }
     Exclamation(element) {
@@ -41,12 +42,13 @@ export default class App extends Component {
         )
     }
     onloadData() {
-        fetch("app/data.json").then(result => {
+        fetch("data.json").then(result => {
             return result.json();
         }).then(answer => {
             this.setState({
                 items: answer.items
             })
+
         })
     }
     onload() {
@@ -89,7 +91,7 @@ export default class App extends Component {
     changeFindText(e) {
         console.log(e.target.value)
         this.setState({
-            findText : e.target.value
+            findText: e.target.value
         })
     }
     componentDidMount() {
@@ -104,22 +106,22 @@ export default class App extends Component {
                     finalItems = [...this.state.items]
                     break;
                 case "active":
-                        finalItems = [...this.state.items.filter((el)=>el.done === false)]
+                    finalItems = [...this.state.items.filter((el) => el.done === false)]
                     break;
                 case "done":
-                        finalItems = [...this.state.items.filter((el)=>el.done === true)]
+                    finalItems = [...this.state.items.filter((el) => el.done === true)]
                     break;
                 default:
                     break;
             }
-            if (this.state.findText !== "" && this.state.items !== undefined ){
-                finalItems = [...finalItems.filter((el)=>el.value.toLowerCase().includes(this.state.findText.toLowerCase()))]
+            if (this.state.findText !== "" && this.state.items !== undefined) {
+                finalItems = [...finalItems.filter((el) => el.value.toLowerCase().includes(this.state.findText.toLowerCase()))]
             }
         }
         return (
             <div className="col-lg-4 mx-auto my-4">
                 <AppHeader more={this.state.items !== undefined ? this.state.items.filter(e => e.done === false).length : ""} done={this.state.items !== undefined ? this.state.items.filter(e => e.done === true).length : ""} />
-                <SearchPanel searchTypeText={this.state.searchTypeText} activButton={this.state.activButton} changeActiveButton={(e) => this.changeActiveButton(e)} findText={this.state.findText} changeFindText={(e)=>this.changeFindText(e)}/>
+                <SearchPanel searchTypeText={this.state.searchTypeText} activButton={this.state.activButton} changeActiveButton={(e) => this.changeActiveButton(e)} findText={this.state.findText} changeFindText={(e) => this.changeFindText(e)} />
                 {this.state.items !== undefined ? <TodoList items={finalItems} exclamation={(e) => this.Exclamation(e)} onLabelClick={(e) => this.onLabelClick(e)} deleteItms={(e) => this.deleteItms(e)} /> : <Loading />}
                 <AddItem addItem={(e) => this.AddItem(e)} />
             </div>

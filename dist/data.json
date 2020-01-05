@@ -1,0 +1,28 @@
+{
+    "items":[
+        {
+            "id" : 0,
+            "value": "Drink coffe",
+            "important": false,
+            "done": false
+        },
+        {
+            "id" : 1,
+            "value": "Learn React",
+            "important": false,
+            "done": false
+        },
+        {
+            "id" : 2,
+            "value": "Build Awesome",
+            "important": true,
+            "done": false
+        },
+        {
+            "id" : 3,
+            "value": "Have a lunch",
+            "important": false,
+            "done": false
+        }
+    ]
+}
